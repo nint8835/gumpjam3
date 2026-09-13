@@ -11,10 +11,13 @@
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "prettier": "^3.9.6",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "~6.0.2",
     "vite": "^8.3.0"
   },
   "dependencies": {
-    "engine": "link:engine/pkg"
+    "@tailwindcss/vite": "^4.3.3",
+    "engine": "link:engine/pkg",
+    "tailwindcss": "^4.3.3"
   }
 }
