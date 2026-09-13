@@ -2,6 +2,7 @@
   "editor.formatOnSave": true,
   "files.trimFinalNewlines": true,
   "files.insertFinalNewline": true,
+  "editor.unicodeHighlight.ambiguousCharacters": false,
 
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[rust]": {
