@@ -1,3 +1,18 @@
 [tools]
+"cargo:wasm-pack" = "0.15.0"
 node = "24"
-rust = "latest"
+rust = { version = "latest", targets = "wasm32-unknown-unknown" }
+
+[settings]
+lockfile = true
+lockfile_mode = "generate"
+
+[tasks.build-engine]
+dir = "engine"
+run = "wasm-pack build"
+description = "Build the Rust component of the project"
+
+[tasks.build]
+depends = ["build-engine"]
+run = "pnpm build"
+description = "Build the project"
