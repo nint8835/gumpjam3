@@ -1,12 +1,19 @@
 import { init, set_code, test, wasm_memory } from 'engine';
 
+init();
+
 const mem = wasm_memory();
 
-set_code(`↯200_200_4 [⍥⚂×× 4 200 200]`);
+set_code(`# Experimental!
+↯5_5_5_4 0
+⍜⊢⋅1
+[1_0_0 1_2_2 2_2_2 2_2_3 2_2_4]
+[[1 1 1 1][1 1 1 1][1 0 0 0.3][0 1 0 0.3][0 1 1 0.3]]
+∧⍜⊙⊡⊙◌
+voxels!(°⊸Scale 20 °⊸Camera [1 (cos now) (∿ now)] °⊸Fog Black)
+`);
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
-
-init();
 
 function render() {
   const pixelResult = test();

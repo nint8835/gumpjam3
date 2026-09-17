@@ -38,7 +38,8 @@ impl ImageData {
 #[wasm_bindgen]
 pub fn set_code(code: String) {
     CODE.with(|cell| {
-        let assembly = Compiler::new().load_str(&code).unwrap().finish();
+        let mut compiler = Compiler::new();
+        let assembly = compiler.load_str(&code).unwrap().finish();
         cell.get_or_init(|| RefCell::new(assembly));
     });
 }
