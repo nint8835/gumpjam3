@@ -1,22 +1,30 @@
-import { init, set_code, test, wasm_memory } from 'engine';
+import { init, render as render_fn, set_block_state, set_code, wasm_memory } from 'engine';
 
 init();
 
 const mem = wasm_memory();
 
 set_code(`# Experimental!
-↯5_5_5_4 0
-⍜⊢⋅1
-[1_0_0 1_2_2 2_2_2 2_2_3 2_2_4]
-[[1 1 1 1][1 1 1 1][1 0 0 0.3][0 1 0 0.3][0 1 1 0.3]]
-∧⍜⊙⊡⊙◌
-voxels!(°⊸Scale 20 °⊸Camera [1 (cos now) (∿ now)] °⊸Fog Black)
+# Blocks ← ↯ 4000 0
+# X      ← 1
+# Y      ← 3
+# Z      ← 4
+Blocks ← GetBlocks
+X      ← GetX
+Y      ← GetY
+Z      ← GetZ
+
+↯5_5_5_4 Blocks
+⍜(⊡ X_Y_Z|1_1_1_(+0.4×0.2∿×2now)◌)
+voxels!(°⊸Scale 20 °⊸Camera 1_(cosnow)_(∿now) °⊸Fog Black)
 `);
+
+set_block_state(1, 2, 3, 1.0, 0.5, 1.0, 0.75);
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 
 function render() {
-  const pixelResult = test();
+  const pixelResult = render_fn();
 
   const pixels = new Uint8ClampedArray(mem.buffer, pixelResult.pixels_ptr(), pixelResult.pixels_len());
 

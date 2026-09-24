@@ -8,6 +8,11 @@ use web_sys::js_sys;
 
 thread_local! {
     static CODE: OnceCell<RefCell<Assembly>> = const { OnceCell::new() };
+    static BLOCK_STATE: OnceCell<RefCell<Vec<f64>>> = const { OnceCell::new() };
+
+    static X: OnceCell<RefCell<usize>> = const { OnceCell::new() };
+    static Y: OnceCell<RefCell<usize>> = const { OnceCell::new() };
+    static Z: OnceCell<RefCell<usize>> = const { OnceCell::new() };
 }
 
 #[wasm_bindgen]
@@ -39,13 +44,55 @@ impl ImageData {
 pub fn set_code(code: String) {
     CODE.with(|cell| {
         let mut compiler = Compiler::new();
+
+        compiler
+            .create_bind_function("GetBlocks", (0, 1), |uiua| {
+                BLOCK_STATE.with(|cell| {
+                    let state = cell.get().unwrap();
+                    uiua.push(uiua::Value::Num(
+                        state.borrow().clone().into_iter().collect::<Array<f64>>(),
+                    ));
+                });
+                Ok(())
+            })
+            .unwrap();
+        compiler
+            .create_bind_function("GetX", (0, 1), |uiua| {
+                X.with(|cell| {
+                    let x = cell.get().unwrap();
+                    uiua.push(*x.borrow());
+                });
+                Ok(())
+            })
+            .unwrap();
+
+        compiler
+            .create_bind_function("GetY", (0, 1), |uiua| {
+                Y.with(|cell| {
+                    let y = cell.get().unwrap();
+                    uiua.push(*y.borrow());
+                });
+                Ok(())
+            })
+            .unwrap();
+
+        compiler
+            .create_bind_function("GetZ", (0, 1), |uiua| {
+                Z.with(|cell| {
+                    let z = cell.get().unwrap();
+                    uiua.push(*z.borrow());
+                });
+                Ok(())
+            })
+            .unwrap();
+
         let assembly = compiler.load_str(&code).unwrap().finish();
         cell.get_or_init(|| RefCell::new(assembly));
     });
 }
 
 #[wasm_bindgen]
-pub fn test() -> Result<ImageData, JsError> {
+pub fn render() -> Result<ImageData, JsError> {
     let mut uiua = Uiua::with_safe_sys();
 
     CODE.with(|cell| {
@@ -76,4 +123,39 @@ pub fn wasm_memory() -> js_sys::WebAssembly::Memory {
 #[wasm_bindgen]
 pub fn init() {
     utils::set_panic_hook();
+
+    BLOCK_STATE.with(|cell| {
+        let initial_state = vec![0f64; 10 * 10 * 10 * 4];
+        cell.get_or_init(|| RefCell::new(initial_state));
+    });
+    set_active_block(1, 1, 1);
+}
+
+#[wasm_bindgen]
+pub fn set_active_block(x: usize, y: usize, z: usize) {
+    X.with(|cell| {
+        let x_cell = cell.get_or_init(|| RefCell::new(0));
+        *x_cell.borrow_mut() = x;
+    });
+    Y.with(|cell| {
+        let y_cell = cell.get_or_init(|| RefCell::new(0));
+        *y_cell.borrow_mut() = y;
+    });
+    Z.with(|cell| {
+        let z_cell = cell.get_or_init(|| RefCell::new(0));
+        *z_cell.borrow_mut() = z;
+    });
+}
+
+#[wasm_bindgen]
+pub fn set_block_state(x: usize, y: usize, z: usize, r: f64, g: f64, b: f64, a: f64) {
+    BLOCK_STATE.with(|cell| {
+        let state = cell.get().unwrap();
+        let mut state = state.borrow_mut();
+        let index = (x * 10 * 10 + y * 10 + z) * 4;
+        state[index] = r;
+        state[index + 1] = g;
+        state[index + 2] = b;
+        state[index + 3] = a;
+    });
 }
