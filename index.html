@@ -7,8 +7,18 @@
     <link href="/src/style.css" rel="stylesheet" />
     <title>gumpjam3</title>
   </head>
-  <body>
-    <canvas id="game"></canvas>
+  <body class="flex justify-center">
+    <div class="max-w-96 w-full flex flex-col items-center">
+      <canvas class="h-100 w-100" id="game"></canvas>
+      <div class="grid grid-cols-3 grid-rows-2 w-fit gap-2">
+        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-d">Q</button>
+        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-f">W</button>
+        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-u">E</button>
+        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-l">A</button>
+        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-b">S</button>
+        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-r">D</button>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
