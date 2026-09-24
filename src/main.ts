@@ -24,10 +24,11 @@ let z = 1;
 ).forEach(([id, [dx, dy, dz]]) => {
   const button = document.getElementById(id) as HTMLButtonElement;
   button.addEventListener('click', () => {
-    x = mod(x + dx, 5);
-    y = mod(y + dy, 5);
-    z = mod(z + dz, 5);
+    x = mod(x + dx, 10);
+    y = mod(y + dy, 10);
+    z = mod(z + dz, 10);
     set_active_block(x, y, z);
+    console.log(x, y, z);
   });
 });
 
@@ -41,8 +42,10 @@ X      ← GetX
 Y      ← GetY
 Z      ← GetZ
 
-↯5_5_5_4 Blocks
-⍜(⊡ X_Y_Z|1_1_1_(+0.4×0.2∿×2now)◌)
+Pulse ← +0.4×0.2∿×2now
+
+↯10_10_10_4 Blocks
+⍜(⊡ X_Y_Z|⨬(×[1 1 1 Pulse]|[1 1 1 Pulse]◌)/×⊸=0)
 voxels!(°⊸Scale 20 °⊸Camera 1_1_1 °⊸Fog Black)
 `);
 
