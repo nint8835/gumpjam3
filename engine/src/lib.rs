@@ -148,14 +148,14 @@ pub fn set_active_block(x: usize, y: usize, z: usize) {
 }
 
 #[wasm_bindgen]
-pub fn set_block_state(x: usize, y: usize, z: usize, r: f64, g: f64, b: f64, a: f64) {
+pub fn set_block_state(x: usize, y: usize, z: usize, r: usize, g: usize, b: usize, a: usize) {
     BLOCK_STATE.with(|cell| {
         let state = cell.get().unwrap();
         let mut state = state.borrow_mut();
         let index = (x * 10 * 10 + y * 10 + z) * 4;
-        state[index] = r;
-        state[index + 1] = g;
-        state[index + 2] = b;
-        state[index + 3] = a;
+        state[index] = (r as f64) / 255.0;
+        state[index + 1] = (g as f64) / 255.0;
+        state[index + 2] = (b as f64) / 255.0;
+        state[index + 3] = (a as f64) / 255.0;
     });
 }

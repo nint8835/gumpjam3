@@ -8,15 +8,30 @@
     <title>gumpjam3</title>
   </head>
   <body class="flex justify-center">
-    <div class="max-w-96 w-full flex flex-col items-center">
+    <div class="flex w-full max-w-96 flex-col items-center gap-2">
       <canvas class="h-100 w-100" id="game"></canvas>
-      <div class="grid grid-cols-3 grid-rows-2 w-fit gap-2">
-        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-d">Q</button>
-        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-f">W</button>
-        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-u">E</button>
-        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-l">A</button>
-        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-b">S</button>
-        <button class="bg-zinc-700 rounded-md w-16 h-16 transition-colors active:bg-zinc-800" id="btn-r">D</button>
+      <div class="grid w-fit grid-cols-3 grid-rows-2 gap-2">
+        <button class="h-16 w-16 rounded-md bg-zinc-700 transition-colors active:bg-zinc-800" id="btn-d">Q</button>
+        <button class="h-16 w-16 rounded-md bg-zinc-700 transition-colors active:bg-zinc-800" id="btn-f">W</button>
+        <button class="h-16 w-16 rounded-md bg-zinc-700 transition-colors active:bg-zinc-800" id="btn-u">E</button>
+        <button class="h-16 w-16 rounded-md bg-zinc-700 transition-colors active:bg-zinc-800" id="btn-l">A</button>
+        <button class="h-16 w-16 rounded-md bg-zinc-700 transition-colors active:bg-zinc-800" id="btn-b">S</button>
+        <button class="h-16 w-16 rounded-md bg-zinc-700 transition-colors active:bg-zinc-800" id="btn-r">D</button>
+      </div>
+      <div class="flex flex-col items-center gap-2">
+        <input type="range" min="0" max="255" id="colour-r" />
+        <input type="range" min="0" max="255" id="colour-g" />
+        <input type="range" min="0" max="255" id="colour-b" />
+        <input type="range" min="0" max="255" id="colour-a" />
+        <div class="h-16 w-16" id="colour-preview"></div>
+      </div>
+      <div class="flex w-full gap-2">
+        <button class="flex-1 rounded-md bg-zinc-700 py-2 transition-colors active:bg-zinc-800" id="btn-place">
+          Place
+        </button>
+        <button class="flex-1 rounded-md bg-zinc-700 py-2 transition-colors active:bg-zinc-800" id="btn-erase">
+          Erase
+        </button>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>

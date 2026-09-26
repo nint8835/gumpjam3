@@ -4,13 +4,34 @@ init();
 
 const mem = wasm_memory();
 
-function mod(n, d) {
+function mod(n: number, d: number): number {
   return ((n % d) + d) % d;
 }
 
 let x = 1;
 let y = 1;
 let z = 1;
+
+let r = 0;
+let g = 0;
+let b = 0;
+let a = 0;
+
+function updateColour() {
+  r = (document.getElementById('colour-r') as HTMLInputElement).valueAsNumber;
+  g = (document.getElementById('colour-g') as HTMLInputElement).valueAsNumber;
+  b = (document.getElementById('colour-b') as HTMLInputElement).valueAsNumber;
+  a = (document.getElementById('colour-a') as HTMLInputElement).valueAsNumber;
+  (document.getElementById('colour-preview') as HTMLDivElement).style.backgroundColor =
+    `rgba(${r}, ${g}, ${b}, ${a / 255})`;
+}
+
+['colour-r', 'colour-g', 'colour-b', 'colour-a'].forEach((id) => {
+  const input = document.getElementById(id) as HTMLInputElement;
+  input.addEventListener('input', updateColour);
+});
+
+updateColour();
 
 (
   [
@@ -32,6 +53,13 @@ let z = 1;
   });
 });
 
+document.getElementById('btn-place')?.addEventListener('click', () => {
+  set_block_state(x, y, z, r, g, b, a);
+});
+document.getElementById('btn-erase')?.addEventListener('click', () => {
+  set_block_state(x, y, z, 0, 0, 0, 0);
+});
+
 set_code(`# Experimental!
 # Blocks ← ↯ 4000 0
 # X      ← 1
@@ -48,8 +76,6 @@ Pulse ← +0.4×0.2∿×2now
 ⍜(⊡ X_Y_Z|⨬(×[1 1 1 Pulse]|[1 1 1 Pulse]◌)/×⊸=0)
 voxels!(°⊸Scale 20 °⊸Camera 1_1_1 °⊸Fog Black)
 `);
-
-set_block_state(1, 2, 3, 1.0, 0.5, 1.0, 0.75);
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
 
